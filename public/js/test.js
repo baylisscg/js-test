@@ -4,7 +4,7 @@
 define("main",['jquery'],
 	    function($) {
 		$(function() {
-		     $('body').append('<p>Alpha is Go!</p>');
+		     $('.content').append('<p>Alpha is Go!</p>');
 		 });
 	    });
 
@@ -24,8 +24,8 @@ define("template",["jquery","dust-full-0.3.0","text!template/test.js"],
 		       function(err, out) {
 			   // Append the error and outputs to the body using jQuery
 			   $(function() {
-				 $('body').append(err);
-				 $('body').append(out);
+				 $('.content').append(err);
+				 $('.content').append(out);
 			     });
 		       });
 

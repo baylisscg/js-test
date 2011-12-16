@@ -1,0 +1,10 @@
+{?datasets}
+<ul>
+  {#datasets}
+  <li id="{name}" class="button" title="{description}">{name}</li>
+  {/datasets}
+</ul>
+{:else}
+No datasets.
+{/datasets}
+

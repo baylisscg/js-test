@@ -9,16 +9,30 @@ require 'json'
 class MyApp < Sinatra::Base
 
   set :root, Dir.getwd
+	set :haml, { :format => :html5 }
+
+
+	helpers do
+		def content_for(key, &block)
+			@content ||= {}
+			puts key
+			puts block
+			@content[key] = capture_haml(&block)
+		end
+		def content(key)
+			@content && @content[key]
+		end
+	end
 
   def initialize()
     super
-    @datasets = {"Test Datset" => {},
-                 "Cubic"=>[],
-                 "spiral"=>[]}
+	  config = File.open(File.join(Dir.getwd,"test.json")) do |f| JSON.load(f) end
+	  @datasets = {}
+	  config['datasets'].each do |x| @datasets[x['name']]=x end
   end
 
   get '/' do
-    haml :'index.html'
+    haml( :'index.html', :layout=>"layout.html".to_sym )
   end
 
   get '/cube' do
@@ -36,7 +50,9 @@ class MyApp < Sinatra::Base
   get '/datasets', :provides=>"json" do
     # Add a dataset
     content_type :json
-    JSON.generate(@datasets.keys)
+	  result = []
+	  @datasets.each { |key,dataset| result << {:name=>dataset['name'],:description=>dataset['description']} }
+    JSON.generate(result)
   end
 
 

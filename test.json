@@ -1,0 +1,11 @@
+{
+    "datasets":[
+        {"name":"test",
+         "description":"A test dataset",
+         "data":{}},
+        {"name":"test 2",
+         "description":"Another test dataset",
+         "data":{}}
+    ]
+
+} 

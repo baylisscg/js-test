@@ -8,16 +8,16 @@
   %head
     %meta{ "http-equiv"=>"content-type", :content=>"text/html;charset=UTF-8" }
     %meta{ :charset => "utf-8" }
-    %meta{ "http-equiv" => "X-UA-Compatible", :content => "IE=edge,chrome=1" }    
+    %meta{ "http-equiv" => "X-UA-Compatible", :content => "IE=edge,chrome=1" }
     %title Test
-    %meta{ :name => "description", :content => "Cube Test" }
+    %meta{ :name => "description", :content => "" }
     %meta{ :name => "author", :content => "Christopher Bayliss" }
 
     -# Mobile viewport optimized: j.mp/bplateviewport
     %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0"}
     %script{ :src => "/js/LAB.js" }
-    %script{ :src => "/js/cube_loader.js" }
-    %link{:rel=>"stylesheet", :type=>"text/css", :href=>"/bootstrap/css/bootstrap.css"}
+    %script{ :src => "/js/loader.js" }
+    %link{:rel=>"stylesheet", :type=>"text/css", :href=>"/bootstrap/css/bootstrap.css" }
   %body
     %div{:class=>"toolbar"}
       %div{:class=>"fill"}
@@ -32,10 +32,10 @@
               %a{:href=>"/cube"}
                 Cube
     %div{:class=>"container-fluid"}
-      %div{:class=>"sidebar",:id=>"datasets"}
+      %div{:class=>"sidebar"}
 
-      %div{:class=>"content",:id=>"cube"}
-
+      %div{:class=>"content"}
+        =yield
         
     %footer
       © AURIN 2011
