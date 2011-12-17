@@ -1,0 +1,23 @@
+!!! 5
+%html{"xml:lang" => 'en'}
+  = partial('header.html')
+  %body
+    %header
+      .topbar
+        .fill
+          .container
+            %a{:class=>"brand",:href=>"#"} AURIN
+            %ul{:class=>"nav"}
+              %li
+                %a{:href=>"/"} Home
+              %li
+                %a{:href=>"/cube"} Cube
+              %li
+                %a{:href=>"/test"} Test
+    .container-fluid
+      .sidebar
+        = yield_content(:sidebar)
+      .content
+        = yield
+    %footer
+      AURIN

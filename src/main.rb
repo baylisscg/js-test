@@ -3,18 +3,24 @@
 #
 
 require 'sinatra/base'
+require 'sinatra/content_for'
+require 'sinatra/namespace'
+require 'sinatra/reloader'
+
 require 'haml'
 require 'json'
 
 class MyApp < Sinatra::Base
+  
+  register Sinatra::Namespace
 
   set :root, Dir.getwd
+  set :layout, true
 
   def initialize()
     super
-    @datasets = {"Test Datset" => {},
-                 "Cubic"=>[],
-                 "spiral"=>[]}
+    conf  = JSON.parse( File.read(File.join(Dir.getwd,"test","test.json")))
+    @datasets = conf["datasets"]
   end
 
   get '/' do
@@ -22,7 +28,9 @@ class MyApp < Sinatra::Base
   end
 
   get '/cube' do
-    haml :'cube.html'
+    @title = "Space-Time Cube"
+    @loader = "/js/cube_loader.js"
+    haml :'cube.html', :layout=>:"layout.html"
   end
 
   post '/dataset' do
@@ -36,7 +44,10 @@ class MyApp < Sinatra::Base
   get '/datasets', :provides=>"json" do
     # Add a dataset
     content_type :json
-    JSON.generate(@datasets.keys)
+    x = @datasets.map do |dataset| 
+      {:name=>dataset["name"],:description=>dataset["description"]}
+    end
+    JSON.generate x
   end
 
   get '/dataset/:name', :provides=>"json" do
@@ -50,10 +61,15 @@ class MyApp < Sinatra::Base
     haml :'test.html'
   end
 
-helpers do
-  def partial(page, options={})
+  helpers do
+    def partial(page, options={})
     haml page.to_sym, options.merge!(:layout => false)
+    end
+    include Sinatra::ContentFor
   end
-end
+
+  configure :development do
+    register Sinatra::Reloader
+  end
 
 end
