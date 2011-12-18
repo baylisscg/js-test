@@ -3,40 +3,36 @@
 #
 
 require 'sinatra/base'
+require 'sinatra/content_for'
+require 'sinatra/namespace'
+require 'sinatra/reloader'
+
 require 'haml'
 require 'json'
 
+require 'datasets'
+
 class MyApp < Sinatra::Base
+  
+  register Sinatra::Namespace
 
   set :root, Dir.getwd
-	set :haml, { :format => :html5 }
-
-
-	helpers do
-		def content_for(key, &block)
-			@content ||= {}
-			puts key
-			puts block
-			@content[key] = capture_haml(&block)
-		end
-		def content(key)
-			@content && @content[key]
-		end
-	end
+  set :layout, true
 
   def initialize()
     super
-	  config = File.open(File.join(Dir.getwd,"test.json")) do |f| JSON.load(f) end
-	  @datasets = {}
-	  config['datasets'].each do |x| @datasets[x['name']]=x end
   end
 
   get '/' do
-    haml( :'index.html', :layout=>"layout.html".to_sym )
+    @title = "AURIN"
+    @loader = "/js/test_loader.js"
+    haml :'index.html', :layout=>:"layout.html"
   end
 
   get '/cube' do
-    haml :'cube.html'
+    @title = "Space-Time Cube"
+    @loader = "/js/cube_loader.js"
+    haml :'cube.html', :layout=>:"layout.html"
   end
 
   post '/dataset' do
@@ -44,22 +40,34 @@ class MyApp < Sinatra::Base
     data = JSON.parse request.body.read
     name = data['name']
     @datasets[name] = data['data']
-    ""
   end
 
   get '/datasets', :provides=>"json" do
     # Add a dataset
     content_type :json
-	  result = []
-	  @datasets.each { |key,dataset| result << {:name=>dataset['name'],:description=>dataset['description']} }
-    JSON.generate(result)
+    Datasets.datasets
   end
-
-
 
   get '/dataset/:name', :provides=>"json" do
     content_type :json
     JSON.generate(@datasets.keys)
+  end
+
+  get '/test' do
+    @title = "Awsome test page"
+    @loader = "/js/test2.js"
+    haml :'test.html'
+  end
+
+  helpers do
+    def partial(page, options={})
+    haml page.to_sym, options.merge!(:layout => false)
+    end
+    include Sinatra::ContentFor
+  end
+
+  configure :development do
+    register Sinatra::Reloader
   end
 
 end

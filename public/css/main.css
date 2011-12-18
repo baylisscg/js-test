@@ -1,0 +1,20 @@
+/* Push down so body appears below .topbar */
+body {
+    margin-top: 4em;
+}
+
+/* Tweak content and sidebar appearance */
+.content, .sidebar { 
+    min-height: 10em;
+    padding-left: 1em;
+    border: 0.125em solid #404040;
+    -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
+    border-radius: 0.5em;
+}
+
+/* Have dataset buttons full width */
+button.dataset {
+    width: 90%;
+}
+

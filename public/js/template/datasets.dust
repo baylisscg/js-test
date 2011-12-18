@@ -1,10 +1,10 @@
+<h3>Datasets</h3>
 {?datasets}
-<ul>
+  <ul class="unstyled">
   {#datasets}
-  <li id="{name}" class="button" title="{description}">{name}</li>
+      <li><button name="{name}" class="btn dataset" title="{description}">{name}</button></li>
   {/datasets}
-</ul>
+  </ul>
 {:else}
-No datasets.
+<p>No datatsets</p>
 {/datasets}
-
