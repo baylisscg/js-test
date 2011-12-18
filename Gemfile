@@ -10,6 +10,6 @@ gem "haml"
 gem "json"
 
 group :test do
-  gem "mizuno"
+  gem "trinidad"
   gem "rspec"
 end
