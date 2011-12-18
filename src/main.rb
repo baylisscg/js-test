@@ -10,6 +10,8 @@ require 'sinatra/reloader'
 require 'haml'
 require 'json'
 
+require 'datasets'
+
 class MyApp < Sinatra::Base
   
   register Sinatra::Namespace
@@ -19,8 +21,6 @@ class MyApp < Sinatra::Base
 
   def initialize()
     super
-    conf  = JSON.parse( File.read(File.join(Dir.getwd,"test","test.json")))
-    @datasets = conf["datasets"]
   end
 
   get '/' do
@@ -40,16 +40,12 @@ class MyApp < Sinatra::Base
     data = JSON.parse request.body.read
     name = data['name']
     @datasets[name] = data['data']
-    ""
   end
 
   get '/datasets', :provides=>"json" do
     # Add a dataset
     content_type :json
-    x = @datasets.map do |dataset| 
-      {:name=>dataset["name"],:description=>dataset["description"]}
-    end
-    JSON.generate x
+    Datasets.datasets
   end
 
   get '/dataset/:name', :provides=>"json" do
