@@ -15,9 +15,9 @@
               %li
                 %a{:href=>"/test"} Test
     .container-fluid
-      .sidebar
+      %section{:class=>"sidebar"}
         = yield_content(:sidebar)
-      .content
+      %section{:class=>"content"}
         = yield
     %footer
       AURIN

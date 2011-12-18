@@ -24,7 +24,9 @@ class MyApp < Sinatra::Base
   end
 
   get '/' do
-    haml :'index.html'
+    @title = "AURIN"
+    @loader = "/js/test_loader.js"
+    haml :'index.html', :layout=>:"layout.html"
   end
 
   get '/cube' do

@@ -1,0 +1,10 @@
+<h3>Datasets</h3>
+{?datasets}
+  <ul class="unstyled">
+  {#datasets}
+      <li><button name="{name}" class="btn dataset" title="{description}">{name}</button></li>
+  {/datasets}
+  </ul>
+{:else}
+<p>No datatsets</p>
+{/datasets}

@@ -2,14 +2,21 @@
  *
  */
 
-define("datasets",['jquery'],
-       function($){
+define("datasets",['jquery',"text!/js/template/datasets.dust"],
+       function($,dataset_template){
+	   dust.loadSource(dust.compile(dataset_template,"datasets"));
        	   $(function() {
 		 // Load datasets as JSON
 		 $.getJSON("/datasets",
 			   // Execute on success
 			   function(data){
-			       $('#datasets').append("Got "+data);
+			       dust.render("datasets",
+					   {datasets:data},
+					   function(err, out) {
+					       console.log(out);
+					       console.log(err);
+					       $('.sidebar').html(out);
+					   });
 			   }
 			  );
 	     });
