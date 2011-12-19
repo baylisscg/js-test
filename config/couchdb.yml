@@ -1,0 +1,7 @@
+development:
+  protocol: 'http'
+  host: localhost
+  port: 5984
+  prefix: beip
+  suffix: test
+

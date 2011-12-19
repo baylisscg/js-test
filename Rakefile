@@ -11,10 +11,15 @@ $:.unshift File.join(Dir.getwd,"src")
 task :setup do
   require 'datasets'
   puts "OK"
-  puts Datasets.respond_to?(:datasets)
-  puts Datasets.create(:name=>"Test",:description=>"A Test dataset")
-  puts Datasets.create(:name=>"Test 2",:description=>"Another Test dataset")
-  Datasets.datasets.all.each {|x| puts x }
+	
+	Datasets.all.each do |x| 
+		puts x
+	end
+
+#	Datasets.create(:name=>"Test 2",:description=>"Another Test dataset")
+	puts Datasets.datasets.include_docs
+	puts Datasets.view(:datasets,:include_docs=>false).to_json
+
 end
 
 require 'rspec/core/rake_task'
